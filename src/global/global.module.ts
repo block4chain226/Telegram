@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import confConfiguration from '../configure/conf.configuration';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true, load: [confConfiguration], envFilePath: ['.env'] }),
-  ],
+  imports: [ConfigModule.forRoot({
+    isGlobal: true,
+    load: [confConfiguration],
+    envFilePath: '/Users/admin/Documents/backend/nestjs/telegram/.env',
+  })],
 })
 
 export class GlobalModule {

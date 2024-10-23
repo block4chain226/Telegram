@@ -3,14 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [TypeOrmModule.forRootAsync(
-    {
-      useFactory: (config: ConfigService) => {
-        return config.get('database');
-      },
-      inject: [ConfigService],
+  imports: [TypeOrmModule.forRootAsync({
+    inject: [ConfigService],
+    useFactory: async (config: ConfigService) => {
+      return config.get('database');
     },
-  )],
+  })],
 })
 export class DatabaseModule {
 }

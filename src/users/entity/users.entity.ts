@@ -16,7 +16,7 @@ export class User {
   firstname?: string;
   @Column({ type: 'varchar', length: 20 })
   lastname?: string;
-  @Column({ type: 'enum', enum: RegistryDates, default: Roles.USER })
+  @Column({ type: 'enum', enum: Roles, default: Roles.USER })
   role: Roles;
   @Column((type) => RegistryDates, { prefix: false })
   registryDates: RegistryDates;
