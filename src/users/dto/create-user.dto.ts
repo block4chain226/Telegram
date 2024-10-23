@@ -1,4 +1,5 @@
 import { IsEmail, IsOptional, IsPhoneNumber, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { Expose } from 'class-transformer';
 
 export class CreateUserDto {
   @IsOptional()
@@ -8,7 +9,8 @@ export class CreateUserDto {
   username?: string;
   @IsEmail()
   email: string;
-  @Matches(/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{4,}$/, { message: 'password should have min 4 characters and min 1 uppercase' })
+  // @Matches(/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{4,}$/, { message: 'password should have min 4 characters and min 1 uppercase' })
+  @IsString()
   password: string;
   @IsPhoneNumber()
   phone: string;

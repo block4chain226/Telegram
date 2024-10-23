@@ -5,5 +5,5 @@ export interface BaseCrud<C, R> {
 
   update(updateDto: C): Promise<R>;
 
-  delete(id: string): Promise<R>;
+  delete(id: string): Promise<string>;
 }
