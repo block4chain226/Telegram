@@ -1,5 +1,5 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import confConfiguration from '../configure/conf.configuration';
 import { GLOBAL_PIPE_OPTION } from './global.constant';
 
