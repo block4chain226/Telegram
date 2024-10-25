@@ -1,7 +1,7 @@
 import { Roles } from '../../users/constants/roles.enum';
 
 export interface JwtPayload {
-  id: string
+  sub: string
   username?: string,
   email: string,
   firstname?: string,
