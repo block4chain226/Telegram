@@ -12,7 +12,7 @@ export const createUserDto = (): CreateUserDto => ({
 });
 
 export const genUserRepsonse = (id: string, createDto: CreateUserDto) => {
-  const user = { id, ...createDto };
+  const user = { id, ...createDto, role:'USER' };
   delete user.password;
   return user;
 };
