@@ -14,7 +14,6 @@ export class UsersSubscriber implements EntitySubscriberInterface<User> {
 
   async beforeInsert(event: InsertEvent<User>) {
     const { entity } = event;
-    console.log("=>(users.subscriber.ts:17) entity", entity.password);
     entity.password = await this.hashService.hashPassword(entity.password);
   }
 }
