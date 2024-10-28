@@ -4,9 +4,10 @@ import { IDatabaseError } from '../interfaces/database-error.interface';
 import { HTTP_ERROR } from '../constants/HTTP_ERROR.constant';
 import { IHttpError } from '../interfaces/http-error.interface';
 import { extractFieldName, extractFieldValue } from '../utils/filters.util';
+import { BaseExceptionFilter } from '@nestjs/core';
 
 @Catch(QueryFailedError)
-export class QueryFailedExceptionFilter implements ExceptionFilter {
+export class QueryFailedExceptionFilter extends BaseExceptionFilter {
   catch(exception: IDatabaseError, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse();
     const { code, detail, table } = exception;
