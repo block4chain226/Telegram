@@ -27,4 +27,8 @@ export class User {
   insertRole() {
     this.role = Roles.USER;
   }
+
+  get isDeleted() {
+    return !!this.registryDates.deletedAt;
+  }
 }

@@ -1,6 +1,7 @@
 import { CreateUserDto } from '../dto/create-user.dto';
 import { faker } from '@faker-js/faker';
 import { ResponseUserDto } from '../dto/response-user.dto';
+import { Roles } from '../constants/roles.enum';
 
 export const createUserDto = (): CreateUserDto => ({
   username: faker.person.firstName(),
@@ -12,7 +13,7 @@ export const createUserDto = (): CreateUserDto => ({
 });
 
 export const genUserRepsonse = (id: string, createDto: CreateUserDto) => {
-  const user = { id, ...createDto, role: 'USER' };
+  const user = { id, ...createDto, role: Roles.USER };
   delete user.password;
   return user;
 };

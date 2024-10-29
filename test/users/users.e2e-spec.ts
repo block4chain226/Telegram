@@ -36,7 +36,7 @@ describe('AppController (e2e)', () => {
   beforeAll(() => {
     createDto = createUserDto();
     createDto.password = '1234Ok';
-    createDto.phone = '+380961657400';
+    createDto.phone = '+380961657419';
   });
 
   it('Create (POST /)', async () => {
@@ -60,9 +60,17 @@ describe('AppController (e2e)', () => {
 
   it('Delete (POST /)', async () => {
     const soft = true;
-    createDto.password = '1234Ok';
     const deleteId = response.body.id;
     await request(app.getHttpServer())
       .delete(`/users/${deleteId}?soft=${soft}`).set('Authorization', `Bearer ${cookies}`).expect(200);
+    const res = await request(app.getHttpServer())
+      .get(`/users/${response.body.id}`).set('Authorization', `Bearer ${cookies}`).expect(401);
+  });
+
+  //Todo
+  it('Recover (Patch /recover', async () => {
+    const res = await request(app.getHttpServer()).patch('/users/recover')
+      .send({ email: response.body.email, password: '1234Ok' }).expect(200);
+    expect(res.body).toEqual({ id: response.body.id, ...createDto, role: 'USER' });
   });
 });
