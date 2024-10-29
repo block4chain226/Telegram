@@ -3,7 +3,7 @@ export interface BaseCrud<C, R> {
 
   findOne(id: string): Promise<R>;
 
-  update(updateDto: C): Promise<R>;
+  update(id: string, updateDto: C): Promise<R>;
 
   delete(id: string): Promise<string>;
 }
