@@ -1,6 +1,7 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { RegistryDates } from '../../common/embedded/registry-dates';
 import { Roles } from '../constants/roles.enum';
+import { Contact } from '../../contacts/entity/contacts.entity';
 
 @Entity('users')
 export class User {
@@ -22,6 +23,9 @@ export class User {
   role: Roles;
   @Column((type) => RegistryDates, { prefix: false })
   registryDates: RegistryDates;
+
+  @OneToMany(() => Contact, (contact) => contact.user, { cascade: ['soft-remove', 'recover'] })
+  contacts: Contact[];
 
   @BeforeInsert()
   insertRole() {
