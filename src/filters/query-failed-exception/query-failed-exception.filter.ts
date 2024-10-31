@@ -1,21 +1,29 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
+import { ArgumentsHost, Catch } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 import { IDatabaseError } from '../interfaces/database-error.interface';
 import { HTTP_ERROR } from '../constants/HTTP_ERROR.constant';
 import { IHttpError } from '../interfaces/http-error.interface';
-import { extractFieldName, extractFieldValue } from '../utils/filters.util';
 import { BaseExceptionFilter } from '@nestjs/core';
+import { extractFromText } from '../../common/utils/regex.util';
 
 @Catch(QueryFailedError)
 export class QueryFailedExceptionFilter extends BaseExceptionFilter {
+  private readonly FIELD_NAME_REGEX = /Key \((\w+)\)=/;
+  private readonly FIELD_VALUE_REGEX = /\)=\((.*?)\)/;
+
   catch(exception: IDatabaseError, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse();
     const { code, detail, table } = exception;
-    const fieldName = extractFieldName(detail);
-    const fieldValue = extractFieldValue(detail);
+    const { fieldName, fieldValue } = this.extractMessageData(detail);
     const meta = { fieldName, fieldValue };
     const { error, description } = this.createError(code, detail);
     response.status(error.status).json({ status: error.status, description, message: detail, table, meta });
+  }
+
+  private extractMessageData(message: string) {
+    const fieldName = extractFromText(message, this.FIELD_NAME_REGEX);
+    const fieldValue = extractFromText(message, this.FIELD_VALUE_REGEX);
+    return { fieldName, fieldValue };
   }
 
   private createError(code: string, details: string) {

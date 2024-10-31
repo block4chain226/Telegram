@@ -4,9 +4,10 @@ import { GlobalModule } from './global/global.module';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { LoginValidationMiddleware } from './auth/middleware/login-validation.middleware';
+import { ContactsModule } from './contacts/contacts.module';
 
 @Module({
-  imports: [GlobalModule, UsersModule, DatabaseModule, AuthModule],
+  imports: [GlobalModule, UsersModule, DatabaseModule, AuthModule, ContactsModule],
   controllers: [],
   providers: [],
 })
