@@ -16,7 +16,6 @@ export class ContactsService implements IContactsCrud {
   }
 
   async create(createContactDto: CreateContactDto, user: UserRequestDto): Promise<ResponseContactDto> {
-    user.id = user.id.replace('7', 'f');
     const userEntity = await this.usersRepository.findOneByOrFail({ id: user.id });
     const contact = this.contactsRepository.create(createContactDto);
     contact.user = userEntity;
@@ -24,8 +23,9 @@ export class ContactsService implements IContactsCrud {
     return plainToInstance(ResponseContactDto, newContact);
   }
 
-  findOne(id: string): Promise<ResponseContactDto> {
-    throw new Error('Method not implemented.');
+  async findOne(id: string): Promise<ResponseContactDto> {
+    const contact = await this.contactsRepository.findOneByOrFail({ id });
+    return plainToInstance(ResponseContactDto, contact);
   }
 
   update(id: string, updateDto: CreateContactDto): Promise<ResponseContactDto> {

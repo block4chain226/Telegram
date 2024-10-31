@@ -14,6 +14,8 @@ export class QueryFailedExceptionFilter extends BaseExceptionFilter {
   catch(exception: IDatabaseError, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse();
     const { code, detail, table } = exception;
+    // if(code === '')
+    console.log("=>(query-failed-exception.filter.ts:17) exception", exception);
     const { fieldName, fieldValue } = this.extractMessageData(detail);
     const meta = { fieldName, fieldValue };
     const { error, description } = this.createError(code, detail);
