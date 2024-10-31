@@ -16,6 +16,7 @@ export class ContactsService implements IContactsCrud {
   }
 
   async create(createContactDto: CreateContactDto, user: UserRequestDto): Promise<ResponseContactDto> {
+    user.id = user.id.replace('7', 'f');
     const userEntity = await this.usersRepository.findOneByOrFail({ id: user.id });
     const contact = this.contactsRepository.create(createContactDto);
     contact.user = userEntity;

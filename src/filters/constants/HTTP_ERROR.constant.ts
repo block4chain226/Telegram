@@ -10,6 +10,10 @@ export const HTTP_ERROR = {
     status: HttpStatus.BAD_REQUEST,
     error: 'bad request',
   },
+  'NOT_FOUND': {
+    status: HttpStatus.NOT_FOUND,
+    error: 'not found',
+  },
 } as const as Record<string, IHttpError>;
 
 export type HttpError = (typeof HTTP_ERROR)[keyof typeof HTTP_ERROR];

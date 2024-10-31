@@ -5,6 +5,7 @@ import { GLOBAL_PIPE_OPTION, RedisOptions } from './global.constant';
 import { AuthJwtGuard } from '../auth/guards/auth-jwt.guard';
 import { QueryFailedExceptionFilter } from '../filters/query-failed-exception/query-failed-exception.filter';
 import { CacheModule } from '@nestjs/cache-manager';
+import { EntityNotFoundException } from '../filters/entity-not-found-exception/entity-not-found-exception';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -15,6 +16,7 @@ import { CacheModule } from '@nestjs/cache-manager';
   providers: [{ provide: 'APP_PIPE', useValue: new ValidationPipe(GLOBAL_PIPE_OPTION) },
     { provide: 'APP_GUARD', useClass: AuthJwtGuard },
     { provide: 'APP_FILTER', useClass: QueryFailedExceptionFilter },
+    { provide: 'APP_FILTER', useClass: EntityNotFoundException },
     // { provide: APP_INTERCEPTOR, useClass: CacheInterceptor },
   ],
 })
