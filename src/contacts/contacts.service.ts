@@ -16,8 +16,10 @@ export class ContactsService implements IContactsCrud {
               @InjectRepository(User) private readonly usersRepository: Repository<User>) {
   }
 
+  // TODO should find contact by phone, if not throw
   async create(createContactDto: CreateContactDto, user: UserRequestDto): Promise<ResponseContactDto> {
     const userEntity = await this.usersRepository.findOneByOrFail({ id: user.id });
+    const contactEntity = await this.usersRepository.findOneByOrFail({ phone: createContactDto.phone });
     if (user.id === createContactDto.ownerId) throw new ConflictException('you can`t add yourself contact');
     const contact = this.contactsRepository.create(createContactDto);
     contact.user = userEntity;

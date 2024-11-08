@@ -7,6 +7,8 @@ export class Contact {
   id: string;
   @Column({ type: 'uuid', name: 'owner_id' })
   ownerId: string;
+  @Column({ type: 'varchar', nullable: true, unique: true })
+  phone: string;
   @Column({ type: 'varchar', length: 20, nullable: true })
   firstname?: string;
   @Column({ type: 'varchar', length: 20, nullable: true })
