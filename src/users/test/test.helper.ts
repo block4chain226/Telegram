@@ -1,6 +1,5 @@
 import { CreateUserDto } from '../dto/create-user.dto';
 import { faker } from '@faker-js/faker';
-import { ResponseUserDto } from '../dto/response-user.dto';
 import { Roles } from '../constants/roles.enum';
 
 export const createUserDto = (): CreateUserDto => ({
