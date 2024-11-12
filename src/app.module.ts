@@ -5,9 +5,16 @@ import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { LoginValidationMiddleware } from './auth/middleware/login-validation.middleware';
 import { ContactsModule } from './contacts/contacts.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { UsersGraphqlModule } from './users/graphql/users-graphql.module';
 
 @Module({
-  imports: [GlobalModule, UsersModule, DatabaseModule, AuthModule, ContactsModule],
+  imports: [GraphQLModule.forRoot<ApolloDriverConfig>({
+    driver: ApolloDriver,
+    include: [UsersGraphqlModule, ContactsModule],
+    autoSchemaFile: 'schema.gql',
+  }), GlobalModule, DatabaseModule, AuthModule, UsersModule, UsersGraphqlModule, ContactsModule],
   controllers: [],
   providers: [],
 })

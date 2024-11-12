@@ -17,7 +17,7 @@ import { EntityNotFoundException } from '../filters/entity-not-found-exception/e
     { provide: 'APP_GUARD', useClass: AuthJwtGuard },
     { provide: 'APP_FILTER', useClass: QueryFailedExceptionFilter },
     { provide: 'APP_FILTER', useClass: EntityNotFoundException },
-    { provide: 'APP_INTERCEPTOR', useClass: CacheInterceptor },
+    // { provide: 'APP_INTERCEPTOR', useClass: CacheInterceptor },
   ],
 })
 
