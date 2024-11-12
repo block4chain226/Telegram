@@ -8,4 +8,6 @@ export interface IContactsCrud extends BaseCrud<CreateContactDto, ResponseContac
   create(createDto: CreateContactDto, user?: UserRequestDto): Promise<ResponseContactDto>;
 
   update(id: string, updateDto: UpdateContactDto, user?: UserRequestDto): Promise<ResponseContactDto>;
+
+  findOne(param: string): Promise<ResponseContactDto>;
 }

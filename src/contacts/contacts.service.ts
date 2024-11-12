@@ -9,6 +9,7 @@ import { ResponseContactDto } from './dto/response-contact.dto';
 import { plainToInstance } from 'class-transformer';
 import { User } from '../users/entity/users.entity';
 import { UpdateContactDto } from './dto/update-contact.dto';
+import { ContactKey, ContactKeys } from './types/constant.type';
 
 @Injectable()
 export class ContactsService implements IContactsCrud {
@@ -16,7 +17,6 @@ export class ContactsService implements IContactsCrud {
               @InjectRepository(User) private readonly usersRepository: Repository<User>) {
   }
 
-  // TODO should find contact by phone, if not throw
   async create(createContactDto: CreateContactDto, user: UserRequestDto): Promise<ResponseContactDto> {
     const userEntity = await this.usersRepository.findOneByOrFail({ id: user.id });
     const contactEntity = await this.usersRepository.findOneByOrFail({ phone: createContactDto.phone });
@@ -27,8 +27,11 @@ export class ContactsService implements IContactsCrud {
     return plainToInstance(ResponseContactDto, newContact);
   }
 
-  async findOne(id: string): Promise<ResponseContactDto> {
-    const contact = await this.contactsRepository.findOneByOrFail({ id });
+  // TODO findOneBy, refactor interface
+  async findOne(param: string): Promise<ResponseContactDto> {
+    console.log("=>(contacts.service.ts:32) param", param);
+    const property: ContactKey = this.getPropertyName(param);
+    const contact = await this.contactsRepository.findOneByOrFail({ [property]: param });
     return plainToInstance(ResponseContactDto, contact);
   }
 
@@ -43,5 +46,11 @@ export class ContactsService implements IContactsCrud {
 
   delete(id: string): Promise<string> {
     throw new Error('Method not implemented.');
+  }
+
+  getPropertyName(property: string): ContactKey {
+    if (property.indexOf(ContactKeys.phone) !== -1) return 'phone';
+    else if (property.indexOf(ContactKeys.username) !== -1) return 'username';
+    return 'id';
   }
 }
