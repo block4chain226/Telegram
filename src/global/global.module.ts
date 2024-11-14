@@ -13,8 +13,9 @@ import { EntityNotFoundException } from '../filters/entity-not-found-exception/e
     load: [confConfiguration],
     envFilePath: '/Users/admin/Documents/backend/nestjs/telegram/.env',
   }), CacheModule.register(RedisOptions)],
-  providers: [{ provide: 'APP_PIPE', useValue: new ValidationPipe(GLOBAL_PIPE_OPTION) },
-    { provide: 'APP_GUARD', useClass: AuthJwtGuard },
+  providers: [
+    { provide: 'APP_PIPE', useValue: new ValidationPipe(GLOBAL_PIPE_OPTION) },
+    // { provide: 'APP_GUARD', useClass: AuthJwtGuard },
     { provide: 'APP_FILTER', useClass: QueryFailedExceptionFilter },
     { provide: 'APP_FILTER', useClass: EntityNotFoundException },
     // { provide: 'APP_INTERCEPTOR', useClass: CacheInterceptor },

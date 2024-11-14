@@ -1,11 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../../users/entity/users.entity';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType({ description: 'contacts' })
 @Entity('contacts')
 export class Contact {
-  @Field()
+  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid', { name: 'contact_id' })
   id: string;
   @Field()
@@ -23,7 +23,6 @@ export class Contact {
 
   @Field(type => User)
   @ManyToOne(() => User, (user) => user.contacts, {
-    eager: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })

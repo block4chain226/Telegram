@@ -7,14 +7,13 @@ import { LoginValidationMiddleware } from './auth/middleware/login-validation.mi
 import { ContactsModule } from './contacts/contacts.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { UsersGraphqlModule } from './users/graphql/users-graphql.module';
 
 @Module({
   imports: [GraphQLModule.forRoot<ApolloDriverConfig>({
     driver: ApolloDriver,
-    include: [UsersGraphqlModule, ContactsModule],
+    include: [ContactsModule, UsersModule, AuthModule],
     autoSchemaFile: 'schema.gql',
-  }), GlobalModule, DatabaseModule, AuthModule, UsersModule, UsersGraphqlModule, ContactsModule],
+  }), GlobalModule, DatabaseModule, AuthModule, UsersModule, ContactsModule],
   controllers: [],
   providers: [],
 })

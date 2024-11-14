@@ -2,12 +2,12 @@ import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 
 import { RegistryDates } from '../../common/embedded/registry-dates';
 import { Roles } from '../constants/roles.enum';
 import { Contact } from '../../contacts/entity/contacts.entity';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 @Entity('users')
 export class User {
-  @Field()
+  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid', { name: 'user_id' })
   id: string;
   @Field()
@@ -34,8 +34,8 @@ export class User {
   @Field(type => RegistryDates)
   @Column((type) => RegistryDates, { prefix: false })
   registryDates: RegistryDates;
-  @Field(type => [Contact])
-  @OneToMany(() => Contact, (contact) => contact.user, { cascade: ['soft-remove', 'recover'], nullable: true })
+  @Field(type => [Contact!])
+  @OneToMany(() => Contact, (contact) => contact.user, { cascade: ['soft-remove', 'recover'], eager: true })
   contacts: Contact[];
 
   @BeforeInsert()

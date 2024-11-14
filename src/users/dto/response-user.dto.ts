@@ -1,9 +1,10 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
 import { Roles } from '../constants/roles.enum';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
+import { ResponseContactDto } from '../../contacts/dto/response-contact.dto';
 
 @Exclude()
-@ObjectType()
+@InputType()
 export class ResponseUserDto {
   @Field()
   @Expose()
@@ -26,4 +27,8 @@ export class ResponseUserDto {
   @Field()
   @Expose()
   phone: string;
+  @Field(type => [ResponseContactDto])
+  @Expose()
+  @Type(() => ResponseContactDto)
+  contacts: ResponseContactDto[];
 }

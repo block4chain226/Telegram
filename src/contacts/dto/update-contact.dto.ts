@@ -1,5 +1,6 @@
-import { OmitType, PartialType } from '@nestjs/swagger';
 import { CreateContactDto } from './create-contact.dto';
+import { InputType, PartialType } from '@nestjs/graphql';
 
-export class UpdateContactDto extends PartialType(OmitType(CreateContactDto, ['ownerId'] as const)) {
+@InputType()
+export class UpdateContactDto extends PartialType(CreateContactDto) {
 }

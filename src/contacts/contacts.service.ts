@@ -20,7 +20,14 @@ export class ContactsService implements IContactsCrud {
   async create(createContactDto: CreateContactDto, user: UserRequestDto): Promise<ResponseContactDto> {
     const userEntity = await this.usersRepository.findOneByOrFail({ id: user.id });
     const contactEntity = await this.usersRepository.findOneByOrFail({ phone: createContactDto.phone });
-    if (user.id === createContactDto.ownerId) throw new ConflictException('you can`t add yourself contact');
+    if (user.id === contactEntity.id) throw new ConflictException('you can`t add yourself contact');
+    if (createContactDto.firstname === undefined) {
+      createContactDto.firstname = contactEntity.firstname;
+    }
+    if (createContactDto.lastname === undefined) {
+      createContactDto.lastname = contactEntity.lastname;
+    }
+    createContactDto['ownerId'] = contactEntity.id;
     const contact = this.contactsRepository.create(createContactDto);
     contact.user = userEntity;
     const newContact = await this.contactsRepository.save(contact);
@@ -29,18 +36,16 @@ export class ContactsService implements IContactsCrud {
 
   // TODO findOneBy, refactor interface
   async findOne(param: string): Promise<ResponseContactDto> {
-    console.log("=>(contacts.service.ts:32) param", param);
     const property: ContactKey = this.getPropertyName(param);
     const contact = await this.contactsRepository.findOneByOrFail({ [property]: param });
     return plainToInstance(ResponseContactDto, contact);
   }
 
   async update(id: string, updateDto: UpdateContactDto, user: UserRequestDto): Promise<ResponseContactDto> {
-    const contact = await this.contactsRepository.findOneByOrFail({ id });
+    const contact = (await this.contactsRepository.find({ where: { id }, relations: ['user'] }))[0];
     if (contact.user.id !== user.id) throw new ConflictException(`you are not owner of ${id} contact`);
     const updated = await this.contactsRepository.update(id, updateDto);
     if (updated.affected < 1) throw new InternalServerErrorException('cant update contact');
-    console.log('=>(contacts.service.ts:36) updated', updated);
     return plainToInstance(ResponseContactDto, contact);
   }
 
