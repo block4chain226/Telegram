@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { RegistryDates } from '../../common/embedded/registry-dates';
 import { Roles } from '../constants/roles.enum';
 import { Contact } from '../../contacts/entity/contacts.entity';
@@ -36,12 +36,12 @@ export class User {
   @Column((type) => RegistryDates, { prefix: false })
   registryDates: RegistryDates;
 
-  @Field(type => [Contact!])
+  @Field(type => [Contact])
   @OneToMany(() => Contact, (contact) => contact.user, { cascade: ['soft-remove', 'recover'], eager: true })
   contacts: Contact[];
 
+  @Field(type => [Chat], { nullable: true })
   @ManyToMany(() => Chat, chat => chat.users)
-  @Field(type => [Chat])
   chats: Chat[];
 
   @BeforeInsert()

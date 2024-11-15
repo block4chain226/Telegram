@@ -24,7 +24,7 @@ export class Chat implements IChat {
   messages: Message[];
 
   @Field(type => [User])
-  @ManyToMany(() => User, user => user.chats, { cascade: true })
+  @ManyToMany(() => User, user => user.chats)
   @JoinTable({
     name: 'chat_users',
     joinColumn: { name: 'chat_id', referencedColumnName: 'id' },

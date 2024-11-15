@@ -1,6 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { User } from '../../users/entity/users.entity';
+import { IsArray, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ResponseUserDto } from '../../users/dto/response-user.dto';
 
 @InputType()
 export class CreateChatDto {
@@ -11,6 +12,8 @@ export class CreateChatDto {
   @Field()
   name: string;
   @IsOptional()
-  @Field(type => [User])
-  users: User[];
+  @Field(type => [String])
+  @IsArray()
+  @IsString({ each: true })
+  usersIds?: string[];
 }

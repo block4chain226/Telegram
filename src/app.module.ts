@@ -12,9 +12,9 @@ import { ChatModule } from './chat/chat.module';
 @Module({
   imports: [GraphQLModule.forRoot<ApolloDriverConfig>({
     driver: ApolloDriver,
-    include: [ContactsModule, UsersModule, AuthModule],
+    include: [ContactsModule, UsersModule, AuthModule, ChatModule],
     autoSchemaFile: 'schema.gql',
-  }), GlobalModule, DatabaseModule, AuthModule, UsersModule, ContactsModule, ChatModule],
+  }), GlobalModule, DatabaseModule, AuthModule, ChatModule, UsersModule, ContactsModule, ChatModule],
   controllers: [],
   providers: [],
 })
