@@ -4,7 +4,7 @@ import { Chat } from '../../chat/entity/chat.entity';
 
 @InputType()
 @Exclude()
-export class ChatMessageDto {
+export class ResponseMessageDto {
   @Expose()
   @Field()
   id: string;

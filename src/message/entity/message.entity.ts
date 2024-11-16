@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { IMessage } from '../interface/message.interface';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Chat } from '../../chat/entity/chat.entity';
@@ -15,6 +15,10 @@ export class Message implements IMessage {
   @Column({ type: 'varchar', length: 500 })
   @Field()
   text: string;
+
+  @Field()
+  @CreateDateColumn()
+  timestamp: Date;
 
   @Field(type => Chat)
   @ManyToOne(() => Chat, (chat) => chat.messages, { onDelete: 'CASCADE', eager: true })
