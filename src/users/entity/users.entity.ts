@@ -11,7 +11,7 @@ export class User {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid', { name: 'user_id' })
   id: string;
-  @Field()
+  @Field({ nullable: true })
   @Column({ type: 'varchar', length: 20, nullable: true, unique: true })
   username?: string;
   @Field()
@@ -23,10 +23,10 @@ export class User {
   @Field()
   @Column({ type: 'varchar', unique: true })
   phone: string;
-  @Field()
+  @Field({ nullable: true })
   @Column({ type: 'varchar', length: 20, nullable: true })
   firstname?: string;
-  @Field()
+  @Field({ nullable: true })
   @Column({ type: 'varchar', length: 20, nullable: true })
   lastname?: string;
   @Field()

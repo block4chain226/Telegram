@@ -1,7 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { Exclude, Expose } from 'class-transformer';
-import { Message } from '../entity/message.entity';
+import { Exclude, Expose, Type } from 'class-transformer';
+import { Message } from '../../message/entity/message.entity';
 import { User } from '../../users/entity/users.entity';
+import { ResponseUserDto } from '../../users/dto/response-user.dto';
 
 
 @Exclude()
@@ -20,6 +21,7 @@ export class ResponseChatDto {
   @Field(type => [Message])
   messages: Message[];
   @Expose()
-  @Field(type => [User])
-  users: User[];
+  @Field(type => [ResponseUserDto])
+  @Type(() => ResponseUserDto)
+  users: ResponseUserDto[];
 }

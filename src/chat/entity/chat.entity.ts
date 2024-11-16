@@ -2,7 +2,7 @@ import { IChat } from '../interface/chat.interface';
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { User } from '../../users/entity/users.entity';
-import { Message } from './message.entity';
+import { Message } from '../../message/entity/message.entity';
 
 @ObjectType()
 @Entity('chat')
@@ -24,7 +24,7 @@ export class Chat implements IChat {
   messages: Message[];
 
   @Field(type => [User])
-  @ManyToMany(() => User, user => user.chats)
+  @ManyToMany(() => User, user => user.chats, {eager: true})
   @JoinTable({
     name: 'chat_users',
     joinColumn: { name: 'chat_id', referencedColumnName: 'id' },

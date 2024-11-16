@@ -75,7 +75,7 @@ export class UsersResolver {
     return this.contactsService.create(createContactDto, user);
   }
 
-  @Query(returns => UserModel)
+  // @Query(returns => UserModel)
   @ResolveField(returns => [Contact])
   async getContact(@Parent() user): Promise<ResponseContactDto> {
     const { id } = user;

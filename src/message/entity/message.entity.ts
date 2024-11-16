@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { IMessage } from '../interface/message.interface';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Chat } from './chat.entity';
+import { Chat } from '../../chat/entity/chat.entity';
 
 @ObjectType()
 @Entity('messages')
