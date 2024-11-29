@@ -3,6 +3,7 @@ import { Roles } from '../constants/roles.enum';
 import { Field, InputType } from '@nestjs/graphql';
 import { ResponseContactDto } from '../../contacts/dto/response-contact.dto';
 import { ResponseChatDto } from '../../chat/dto/response-chat.dto';
+import { RegistryDates } from '../../common/embedded/registry-dates';
 
 @Exclude()
 @InputType()
@@ -36,4 +37,8 @@ export class ResponseUserDto {
   @Expose()
   @Type(() => ResponseChatDto)
   chats: ResponseChatDto[];
+  @Expose()
+  @Type(() => RegistryDates)
+  @Field(type => RegistryDates)
+  registryDates: RegistryDates;
 }

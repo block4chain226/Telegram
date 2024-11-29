@@ -14,9 +14,14 @@ import { ChatModule } from './chat/chat.module';
     driver: ApolloDriver,
     include: [ContactsModule, UsersModule, AuthModule, ChatModule],
     autoSchemaFile: 'schema.gql',
+    subscriptions: {
+      'graphql-ws': true,
+    },
+    playground:true
   }), GlobalModule, DatabaseModule, AuthModule, ChatModule, UsersModule, ContactsModule, ChatModule],
   controllers: [],
   providers: [],
+  exports: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {

@@ -5,7 +5,6 @@ import { User } from '../users/entity/users.entity';
 import { MessageService } from './message.service';
 import { ChatModule } from '../chat/chat.module';
 
-
 @Module({
   imports: [TypeOrmModule.forFeature([Message, User]), forwardRef(() => ChatModule)],
   providers: [MessageService],
