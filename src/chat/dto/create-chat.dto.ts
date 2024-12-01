@@ -1,5 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsArray, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
+import { IsBoolean } from '../../common/decorators/validators/IsBoolean.decorator';
 
 @InputType()
 export class CreateChatDto {
@@ -9,9 +10,11 @@ export class CreateChatDto {
   @MaxLength(30)
   @Field()
   name: string;
-  @IsOptional()
   @Field(type => [String])
   @IsArray()
-  @IsString({ each: true })
-  usersIds?: string[];
+  @IsUUID('4', { each: true })
+  usersIds: string[];
+  @IsBoolean()
+  @Field()
+  isGroup: boolean = false;
 }
