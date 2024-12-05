@@ -9,17 +9,17 @@ export const GLOBAL_PIPE_OPTION: ValidationPipeOptions = { transform: true, whit
 export const RedisOptions: CacheModuleAsyncOptions = {
   isGlobal: true,
   imports: [ConfigModule],
-  useFactory: async (configService: ConfigService) => {
+  useFactory: async (config: ConfigService) => {
     const store = await redisStore({
       socket: {
-        host: 'redis-19445.c293.eu-central-1-1.ec2.redns.redis-cloud.com:',
-        port: 19445,
+        host: config.get('REDIS_HOST'),
+        port: config.get('REDIS_PORT'),
       },
-      ttl: 5 * 1000,
+      ttl: 20 * 1000,
     });
-    return {
-      store: () => store,
-    };
+    return { store: () => store };
   },
   inject: [ConfigService],
 };
+
+//redis-19445.c293.eu-central-1-1.ec2.redns.redis-cloud.com:

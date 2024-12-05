@@ -35,6 +35,9 @@ export class User {
   @Field(type => RegistryDates)
   @Column((type) => RegistryDates, { prefix: false })
   registryDates: RegistryDates;
+  @Field()
+  @Column({ type: 'date', default: new Date() })
+  lastSeen: Date;
 
   @Field(type => [Contact])
   @OneToMany(() => Contact, (contact) => contact.user, { cascade: ['soft-remove', 'recover'], eager: true })

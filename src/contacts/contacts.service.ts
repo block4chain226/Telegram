@@ -37,8 +37,18 @@ export class ContactsService implements IContactsCrud {
   // TODO findOneBy, refactor interface
   async findOne(param: string): Promise<ResponseContactDto> {
     const property: ContactKey = this.getPropertyName(param);
+    console.log('=>(contacts.service.ts:40) property', property);
     const contact = await this.contactsRepository.findOneByOrFail({ [property]: param });
     return plainToInstance(ResponseContactDto, contact);
+  }
+
+  async findAll(param: string): Promise<any> {
+    const contacts = await this.contactsRepository.find({
+      select: ['ownerId'],
+      where: { user: { id: param } },
+    });
+    console.log('=>(contacts.service.ts:47) contacts', contacts);
+    return contacts;
   }
 
   async update(id: string, updateDto: UpdateContactDto, user: UserRequestDto): Promise<ResponseContactDto> {
