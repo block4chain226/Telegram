@@ -18,6 +18,9 @@ export class Message implements IMessage {
   @Field()
   @CreateDateColumn()
   timestamp: Date;
+  @Field()
+  @Column({ type: 'uuid', name: 'chat_id' })
+  chatId: string;
 
   @Field(type => Chat)
   @ManyToOne(() => Chat, (chat) => chat.messages, { onDelete: 'CASCADE', eager: true })
