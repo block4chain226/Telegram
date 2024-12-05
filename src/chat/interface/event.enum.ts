@@ -4,6 +4,7 @@ export enum EventEnum {
   getOnline = 'getOnline',
   joinChat = 'joinChat',
   leftChat = 'leftChat',
+  lastSeen = 'lastSeen',
 }
 
 export enum RedisProperty {

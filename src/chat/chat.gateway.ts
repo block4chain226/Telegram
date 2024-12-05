@@ -43,10 +43,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 
   async handleConnection(client: any, ...args: any[]): Promise<any> {
     const user = client.data.user.sub;
-    console.log(user);
     await this.redisClient.SADD(RedisProperty.usersOnline, user);
     await this.connectClientToAllHisRooms(client);
-    console.log('Connected!', client.rooms);
     client.broadcast.emit(EventEnum.message, `user ${client.id} was connected`);
   }
 
@@ -62,9 +60,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect, On
     client.broadcast.emit(EventEnum.getOnline, onlineUsers);
   }
 
-  async getUserLastSeen(userId: string): Promise<string> {
-    const lastSeen = await this.redisClient.HMGET(RedisProperty.usersLastSeen, userId);
-    return lastSeen;
+  @SubscribeMessage(EventEnum.lastSeen)
+  async getUserLastSeen(client: Socket, userId: string): Promise<void> {
+    userId = JSON.parse(userId);
+    const lastSeen = await this.redisClient.HMGET(RedisProperty.usersLastSeen, userId['userId']);
+    client.emit('lastSeen', lastSeen);
   }
 
   @SubscribeMessage(EventEnum.joinChat)
@@ -77,7 +77,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect, On
     const userId = client.data.user.sub;
     const chats = await this.chatService.getUserChats(userId);
     chats.forEach((chat: Chat) => {
-      console.log('chatid=', chat.id);
       this.joinRoom(client, chat.id);
     });
   }
@@ -86,6 +85,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect, On
   async handleMessage(client: Socket, payload: CreateMessageDto): Promise<any> {
     const payLoadObj = JSON.parse(payload.toString());
     client.to(payLoadObj.chatId).emit(EventEnum.message, payLoadObj.text);
+    await this.chatService.sendMessage(payLoadObj, client.data.user.sub);
   }
 }
 

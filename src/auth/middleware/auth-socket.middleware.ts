@@ -1,5 +1,6 @@
 import { AuthService } from '../auth.service';
 import { Socket } from 'socket.io';
+import { NextFunction } from 'express';
 
 export type SocketMiddleware = (socket: Socket, next: (err?: Error) => void) => void
 

@@ -15,7 +15,6 @@ export class Message implements IMessage {
   @Column({ type: 'varchar', length: 500 })
   @Field()
   text: string;
-
   @Field()
   @CreateDateColumn()
   timestamp: Date;
